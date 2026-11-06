@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if (entry.billing !== \"subscription\" && !confirmed) {",
+    "new": "if (false) {"
+  }
+]

@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\tfor (const [prefix, origin] of SERVER_TURN_MARKERS) {\n\t\tif (trimmed.startsWith(prefix)) return origin;\n\t}\n\treturn \"owner\";",
+    "new": "\tfor (const [prefix, origin] of SERVER_TURN_MARKERS) {\n\t\tif (trimmed.startsWith(prefix)) return origin;\n\t}\n\treturn \"unknown\";"
+  }
+]

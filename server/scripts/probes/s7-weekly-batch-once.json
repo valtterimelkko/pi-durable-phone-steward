@@ -1,0 +1,10 @@
+[
+  {
+    "old": "\t\t\t\t\t\tif (weeklyRuns.snapshotted[task.input.runId] !== true) {",
+    "new": "\t\t\t\t\t\tif (weeklyRuns.snapshotted[task.input.runId] !== true || process.env.VITEST !== undefined) {"
+  },
+  {
+    "old": "weeklyRuns.cacheBatch?.[task.input.runId] === undefined) {",
+    "new": "weeklyRuns.cacheBatch?.[task.input.runId] === undefined || process.env.VITEST !== undefined) {"
+  }
+]

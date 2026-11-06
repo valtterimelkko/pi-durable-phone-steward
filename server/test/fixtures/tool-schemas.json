@@ -1,0 +1,117 @@
+{
+  "source": "@earendil-works/pi-durable 1.4.0 (TypeBox schemas), generated before the 1.5.0 pin bump",
+  "tools": {
+    "phone_storage_overview": {
+      "extension": "steward-phone-tools",
+      "schema": "{\"properties\":{},\"type\":\"object\"}"
+    },
+    "phone_app_usage": {
+      "extension": "steward-phone-tools",
+      "schema": "{\"properties\":{},\"type\":\"object\"}"
+    },
+    "phone_media_index": {
+      "extension": "steward-phone-tools",
+      "schema": "{\"properties\":{\"folders\":{\"items\":{\"type\":\"string\"},\"type\":\"array\"},\"mode\":{\"anyOf\":[{\"const\":\"summary\",\"type\":\"string\"},{\"const\":\"rule_candidates\",\"type\":\"string\"}]},\"olderThanDays\":{\"type\":\"number\"}},\"required\":[\"mode\"],\"type\":\"object\"}"
+    },
+    "phone_files": {
+      "extension": "steward-files-shizuku",
+      "schema": "{\"properties\":{\"depth\":{\"type\":\"number\"},\"limit\":{\"type\":\"number\"},\"minBytes\":{\"type\":\"number\"},\"namePattern\":{\"type\":\"string\"},\"olderThanDays\":{\"type\":\"number\"},\"op\":{\"anyOf\":[{\"const\":\"list\",\"type\":\"string\"},{\"const\":\"find\",\"type\":\"string\"},{\"const\":\"du\",\"type\":\"string\"}]},\"path\":{\"type\":\"string\"},\"paths\":{\"items\":{\"type\":\"string\"},\"type\":\"array\"},\"root\":{\"type\":\"string\"},\"type\":{\"anyOf\":[{\"const\":\"file\",\"type\":\"string\"},{\"const\":\"dir\",\"type\":\"string\"},{\"const\":\"any\",\"type\":\"string\"}]}},\"required\":[\"op\"],\"type\":\"object\"}"
+    },
+    "phone_shell_info": {
+      "extension": "steward-files-shizuku",
+      "schema": "{\"properties\":{\"op\":{\"anyOf\":[{\"const\":\"packages\",\"type\":\"string\"},{\"const\":\"app_sizes\",\"type\":\"string\"}]}},\"required\":[\"op\"],\"type\":\"object\"}"
+    },
+    "phone_force_stop": {
+      "extension": "steward-files-shizuku",
+      "schema": "{\"properties\":{\"packageName\":{\"type\":\"string\"}},\"required\":[\"packageName\"],\"type\":\"object\"}"
+    },
+    "storage_trend": {
+      "extension": "steward-server-tools",
+      "schema": "{\"properties\":{},\"type\":\"object\"}"
+    },
+    "phone_snapshot": {
+      "extension": "steward-server-tools",
+      "schema": "{\"properties\":{},\"type\":\"object\"}"
+    },
+    "phone_result": {
+      "extension": "steward-server-tools",
+      "schema": "{\"properties\":{\"jobId\":{\"type\":\"string\"},\"limit\":{\"type\":\"number\"},\"offset\":{\"type\":\"number\"},\"path\":{\"type\":\"string\"}},\"required\":[\"jobId\"],\"type\":\"object\"}"
+    },
+    "decisions": {
+      "extension": "steward-server-tools",
+      "schema": "{\"properties\":{\"includeScreenActions\":{\"type\":\"boolean\"},\"limit\":{\"type\":\"number\"}},\"type\":\"object\"}"
+    },
+    "proposals": {
+      "extension": "steward-server-tools",
+      "schema": "{\"properties\":{},\"type\":\"object\"}"
+    },
+    "rules": {
+      "extension": "steward-server-tools",
+      "schema": "{\"properties\":{},\"type\":\"object\"}"
+    },
+    "propose_cleanup": {
+      "extension": "steward-server-tools",
+      "schema": "{\"properties\":{\"items\":{\"items\":{\"properties\":{\"bytesEstimate\":{\"type\":\"number\"},\"kind\":{\"anyOf\":[{\"const\":\"trash_media\",\"type\":\"string\"},{\"const\":\"uninstall_app\",\"type\":\"string\"},{\"const\":\"clear_app_cache\",\"type\":\"string\"},{\"const\":\"clear_all_caches\",\"type\":\"string\"},{\"const\":\"delete_files\",\"type\":\"string\"},{\"const\":\"trim_caches\",\"type\":\"string\"},{\"const\":\"disable_app\",\"type\":\"string\"},{\"const\":\"enable_app\",\"type\":\"string\"},{\"const\":\"advice\",\"type\":\"string\"}]},\"reason\":{\"type\":\"string\"},\"target\":{}},\"required\":[\"kind\",\"target\"],\"type\":\"object\"},\"type\":\"array\"},\"reason\":{\"type\":\"string\"},\"title\":{\"type\":\"string\"}},\"required\":[\"title\",\"reason\",\"items\"],\"type\":\"object\"}"
+    },
+    "phone_use_request": {
+      "extension": "steward-server-tools",
+      "schema": "{\"properties\":{\"task\":{\"type\":\"string\"},\"why\":{\"type\":\"string\"}},\"required\":[\"task\",\"why\"],\"type\":\"object\"}"
+    },
+    "web_search": {
+      "extension": "steward-web-tools",
+      "schema": "{\"properties\":{\"limit\":{\"type\":\"number\"},\"query\":{\"type\":\"string\"}},\"required\":[\"query\"],\"type\":\"object\"}"
+    },
+    "web_read": {
+      "extension": "steward-web-tools",
+      "schema": "{\"properties\":{\"url\":{\"type\":\"string\"}},\"required\":[\"url\"],\"type\":\"object\"}"
+    },
+    "web_browse": {
+      "extension": "steward-web-tools",
+      "schema": "{\"properties\":{\"steps\":{\"items\":{},\"type\":\"array\"},\"url\":{\"type\":\"string\"}},\"required\":[\"url\"],\"type\":\"object\"}"
+    },
+    "memory_recall": {
+      "extension": "steward-orchestration-tools",
+      "schema": "{\"properties\":{\"query\":{\"type\":\"string\"}},\"required\":[\"query\"],\"type\":\"object\"}"
+    },
+    "memory_find": {
+      "extension": "steward-orchestration-tools",
+      "schema": "{\"properties\":{\"question\":{\"type\":\"string\"}},\"required\":[\"question\"],\"type\":\"object\"}"
+    },
+    "memory_survey": {
+      "extension": "steward-orchestration-tools",
+      "schema": "{\"properties\":{\"scope\":{\"type\":\"string\"}},\"type\":\"object\"}"
+    },
+    "session_find": {
+      "extension": "steward-orchestration-tools",
+      "schema": "{\"properties\":{\"query\":{\"type\":\"string\"}},\"required\":[\"query\"],\"type\":\"object\"}"
+    },
+    "session_handoff": {
+      "extension": "steward-orchestration-tools",
+      "schema": "{\"properties\":{\"ref\":{\"type\":\"string\"}},\"required\":[\"ref\"],\"type\":\"object\"}"
+    },
+    "session_log": {
+      "extension": "steward-orchestration-tools",
+      "schema": "{\"properties\":{\"grep\":{\"type\":\"string\"},\"item\":{\"type\":\"number\"},\"ref\":{\"type\":\"string\"}},\"required\":[\"ref\"],\"type\":\"object\"}"
+    },
+    "presence_board": {
+      "extension": "steward-orchestration-tools",
+      "schema": "{\"properties\":{},\"type\":\"object\"}"
+    },
+    "screen_observe": {
+      "extension": "steward-live-session",
+      "schema": "{\"properties\":{},\"type\":\"object\"}"
+    },
+    "screen_act": {
+      "extension": "steward-live-session",
+      "schema": "{\"properties\":{\"action\":{\"type\":\"string\"},\"direction\":{\"type\":\"string\"},\"nodeId\":{\"type\":\"string\"},\"packageName\":{\"type\":\"string\"},\"text\":{\"type\":\"string\"}},\"required\":[\"action\"],\"type\":\"object\"}"
+    },
+    "screen_ask": {
+      "extension": "steward-live-session",
+      "schema": "{\"properties\":{\"question\":{\"type\":\"string\"}},\"required\":[\"question\"],\"type\":\"object\"}"
+    },
+    "screen_end": {
+      "extension": "steward-live-session",
+      "schema": "{\"properties\":{\"summary\":{\"type\":\"string\"}},\"required\":[\"summary\"],\"type\":\"object\"}"
+    }
+  }
+}

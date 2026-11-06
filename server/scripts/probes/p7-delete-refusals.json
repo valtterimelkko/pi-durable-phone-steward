@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if (refusal !== undefined) throw badRequest(`delete_files item \"${path}\" is refused: ${refusal}.`);",
+    "new": "/* MUTATED */"
+  }
+]

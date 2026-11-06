@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\tdeps.exit(1);",
+    "new": "\t/* mutated: a failed harness no longer ends the process */"
+  }
+]

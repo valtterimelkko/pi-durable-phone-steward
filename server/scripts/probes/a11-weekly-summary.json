@@ -1,0 +1,6 @@
+[
+  {
+    "old": "return `[phone job ${job.jobId}] kind=${job.kind} status=ok summary=${summary} (full result: phone_result {\"jobId\":\"${job.jobId}\"})`;",
+    "new": "return `[phone job ${job.jobId}] kind=${job.kind} status=ok data=${stringify(job.result.data ?? null)}`;"
+  }
+]

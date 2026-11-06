@@ -1,0 +1,6 @@
+[
+  {
+    "old": "const refusal = phoneUseRequestRefusal(args, origin);",
+    "new": "const refusal = phoneUseRequestRefusal(args, \"owner\");"
+  }
+]

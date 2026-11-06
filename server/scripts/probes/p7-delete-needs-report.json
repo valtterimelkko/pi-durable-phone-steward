@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if (!strict) return { ...item, target: { ...(item.target as object), path } };",
+    "new": "return { ...item, target: { ...(item.target as object), path } };"
+  }
+]

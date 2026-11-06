@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\t\t\tawait endSessionTx(tx, session.sessionId, \"finished\", args.summary.slice(0, MAX_DETAIL), Date.now());",
+    "new": "\t\t\tif (false) await endSessionTx(tx, session.sessionId, \"finished\", args.summary.slice(0, MAX_DETAIL), Date.now());"
+  }
+]

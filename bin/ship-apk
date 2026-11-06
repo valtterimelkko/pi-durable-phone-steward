@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+# ship-apk — put a built APK into the folder the device API serves updates from
+# (docs/protocol.md, the app-update endpoint):
+#   * name it phone-steward-v<versionName>-<short commit>.apk, with a .sha256 beside it;
+#   * write release.json (atomically: temp file + rename) for GET /v1/app/latest;
+#   * move every older APK and its .sha256 into <dest>/archive/ (never delete).
+#
+# usage: bin/ship-apk --dest <dir> [--commit <sha>] [--gradle-file <file>] [--aapt2 <path>] <built-apk>
+#
+# --dest is REQUIRED and has no default, so a stray run can never touch a real folder by
+# accident: pass the folder on purpose. Point PHONE_STEWARD_RELEASE_DIR (in the service
+# environment) at the same folder so the server serves it.
+#
+# Version: read from the APK with aapt2 (--aapt2, or under $ANDROID_HOME/build-tools) when
+# it can, and from app/build.gradle.kts (or --gradle-file); if both are available and
+# disagree, the script refuses. release.json is written AFTER the new APK is in place and
+# BEFORE the older ones move, so the server never points at a file that is not there.
+set -euo pipefail
+
+usage() { sed -n '2,18p' "$0" | sed 's/^# \{0,1\}//'; exit "${1:-2}"; }
+die() { echo "ship-apk: $*" >&2; exit 1; }
+
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+DEST="" COMMIT="" GRADLE="$REPO/app/build.gradle.kts" APK="" AAPT2="${PHONE_STEWARD_AAPT2:-}"
+while [ $# -gt 0 ]; do
+	case "$1" in
+		--dest) [ $# -ge 2 ] || usage; DEST="$2"; shift 2 ;;
+		--commit) [ $# -ge 2 ] || usage; COMMIT="$2"; shift 2 ;;
+		--gradle-file) [ $# -ge 2 ] || usage; GRADLE="$2"; shift 2 ;;
+		--aapt2) [ $# -ge 2 ] || usage; AAPT2="$2"; shift 2 ;;
+		-h|--help) usage 0 ;;
+		-*) echo "ship-apk: unknown option $1" >&2; usage ;;
+		*) [ -z "$APK" ] || usage; APK="$1"; shift ;;
+	esac
+done
+
+[ -n "$DEST" ] || die "--dest <dir> is required (no default, so the real artifacts folder is never touched by accident)"
+[ -n "$APK" ] || usage
+[ -f "$APK" ] || die "no such APK: $APK"
+[ -s "$APK" ] || die "the APK is empty: $APK"
+
+# --- version -------------------------------------------------------------------------
+NAME_A="" CODE_A="" NAME_G="" CODE_G=""
+if [ -z "$AAPT2" ] && [ -n "${ANDROID_HOME:-}" ]; then
+	AAPT2="$(ls "$ANDROID_HOME"/build-tools/*/aapt2 2>/dev/null | sort -V | tail -1 || true)"
+fi
+if [ -n "$AAPT2" ] && BADGING="$("$AAPT2" dump badging "$APK" 2>/dev/null)"; then
+	NAME_A="$(printf '%s\n' "$BADGING" | sed -n "s/^package: .* versionName='\([^']*\)'.*/\1/p" | head -1)"
+	CODE_A="$(printf '%s\n' "$BADGING" | sed -n "s/^package: .* versionCode='\([0-9]*\)'.*/\1/p" | head -1)"
+fi
+if [ -f "$GRADLE" ]; then
+	# `versionCode = 5`, or the property-override form `versionCode = (...) ?: 5`.
+	NAME_G="$(sed -n 's/^[[:space:]]*versionName[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p; s/^[[:space:]]*versionName[[:space:]]*=.*?:[[:space:]]*"\([^"]*\)".*/\1/p' "$GRADLE" | head -1)"
+	CODE_G="$(sed -n 's/^[[:space:]]*versionCode[[:space:]]*=[[:space:]]*\([0-9][0-9]*\)[[:space:]]*$/\1/p; s/^[[:space:]]*versionCode[[:space:]]*=.*?:[[:space:]]*\([0-9][0-9]*\).*/\1/p' "$GRADLE" | head -1)"
+fi
+if [ -n "$NAME_A" ] && [ -n "$NAME_G" ] && { [ "$NAME_A" != "$NAME_G" ] || [ "$CODE_A" != "$CODE_G" ]; }; then
+	die "the APK says $NAME_A ($CODE_A) but $GRADLE says $NAME_G ($CODE_G): build the APK from this checkout"
+fi
+VERSION_NAME="${NAME_A:-$NAME_G}"
+VERSION_CODE="${CODE_A:-$CODE_G}"
+[ -n "$VERSION_NAME" ] && [ -n "$VERSION_CODE" ] || die "could not read versionName/versionCode (aapt2 and $GRADLE both failed)"
+[[ "$VERSION_NAME" =~ ^[0-9A-Za-z._+-]+$ ]] || die "odd versionName: $VERSION_NAME"
+[[ "$VERSION_CODE" =~ ^[0-9]+$ ]] || die "odd versionCode: $VERSION_CODE"
+
+# --- short commit --------------------------------------------------------------------
+if [ -z "$COMMIT" ]; then
+	COMMIT="$(git -C "$REPO" rev-parse --short=7 HEAD 2>/dev/null)" || die "no git commit to name the file by (pass --commit)"
+fi
+COMMIT="${COMMIT:0:7}"
+[[ "$COMMIT" =~ ^[0-9a-f]{7}$ ]] || die "odd commit: $COMMIT"
+
+# --- ship ----------------------------------------------------------------------------
+FILE="phone-steward-v${VERSION_NAME}-${COMMIT}.apk"
+mkdir -p "$DEST" "$DEST/archive"
+DEST="$(cd "$DEST" && pwd)"
+
+SHA="$(sha256sum "$APK" | cut -d' ' -f1)"
+SIZE="$(stat -c %s "$APK")"
+
+# Refuse before changing anything if an archive name would collide.
+for old in "$DEST"/phone-steward-*.apk; do
+	[ -e "$old" ] || continue
+	[ "$(basename "$old")" = "$FILE" ] && continue
+	[ ! -e "$DEST/archive/$(basename "$old")" ] || die "archive/$(basename "$old") already exists; refusing to overwrite"
+done
+
+# 1. the new APK, copied under a temp name then renamed (a half copy is never the APK).
+cp "$APK" "$DEST/.${FILE}.tmp.$$"
+mv -f "$DEST/.${FILE}.tmp.$$" "$DEST/$FILE"
+printf '%s  %s\n' "$SHA" "$FILE" > "$DEST/$FILE.sha256"
+
+# 2. release.json, atomically.
+NOW_MS="$(date +%s%3N)"
+RELEASE_TMP="$DEST/.release.json.tmp.$$"
+printf '{"versionName":"%s","versionCode":%s,"file":"%s","sha256":"%s","sizeBytes":%s,"publishedAtMs":%s}\n' \
+	"$VERSION_NAME" "$VERSION_CODE" "$FILE" "$SHA" "$SIZE" "$NOW_MS" > "$RELEASE_TMP"
+mv -f "$RELEASE_TMP" "$DEST/release.json"
+
+# 3. every older APK and its .sha256 into archive/.
+for old in "$DEST"/phone-steward-*.apk; do
+	[ -e "$old" ] || continue
+	base="$(basename "$old")"
+	[ "$base" = "$FILE" ] && continue
+	mv "$old" "$DEST/archive/$base"
+	[ ! -e "$old.sha256" ] || mv "$old.sha256" "$DEST/archive/$base.sha256"
+done
+
+echo "shipped $FILE"
+echo "  versionName=$VERSION_NAME versionCode=$VERSION_CODE sha256=$SHA sizeBytes=$SIZE"
+echo "  dest=$DEST (release.json written; older APKs in archive/)"

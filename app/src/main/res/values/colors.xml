@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#1B5E20</color>
+    <!-- Window backgrounds match the Compose canvas (Pi Web UI palette) so there is no white flash. -->
+    <color name="steward_canvas">#FCFCFB</color>
+    <color name="steward_canvas_dark">#18181B</color>
+</resources>

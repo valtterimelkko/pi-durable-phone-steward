@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if (a === 0 || a === 10 || a === 127) return false;",
+    "new": "if (a === 0) return false;"
+  }
+]

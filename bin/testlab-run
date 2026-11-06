@@ -1,0 +1,32 @@
+#!/bin/bash
+# Optional: run the instrumentation suite on Firebase Test Lab (docs/guide/firebase.md).
+# usage: bin/testlab-run <checkout> <label> <model> <apiLevel> [extra gcloud args]
+# Builds nothing: run `./gradlew assembleDebug assembleDebugAndroidTest` in <checkout>/app first.
+# One run at a time (flock). Configure your own project before use:
+#   PHONE_STEWARD_GCP_PROJECT   your Google Cloud project id
+#   PHONE_STEWARD_RESULTS_BUCKET a cloud storage bucket for results
+#   PHONE_STEWARD_GCP_CONFIG     a directory for this script's gcloud configuration
+set -u
+WT=$1; LABEL=$2; MODEL=$3; VER=$4; shift 4
+: "${PHONE_STEWARD_GCP_PROJECT:?set PHONE_STEWARD_GCP_PROJECT to your Google Cloud project id}"
+: "${PHONE_STEWARD_RESULTS_BUCKET:?set PHONE_STEWARD_RESULTS_BUCKET to a bucket for results}"
+: "${PHONE_STEWARD_GCP_CONFIG:?set PHONE_STEWARD_GCP_CONFIG to a directory for gcloud configuration}"
+LOCK="${PHONE_STEWARD_TESTLAB_LOCK:-/tmp/phone-steward-testlab.lock}"
+cd "$WT/app" || exit 2
+export CLOUDSDK_CONFIG="$PHONE_STEWARD_GCP_CONFIG"
+RUN=steward-$(basename "$WT")-$(date -u +%Y%m%d-%H%M%S)-$LABEL
+echo "RESULTS=gs://$PHONE_STEWARD_RESULTS_BUCKET/$RUN"
+flock "$LOCK" gcloud firebase test android run \
+  --project "$PHONE_STEWARD_GCP_PROJECT" \
+  --type instrumentation \
+  --app build/outputs/apk/debug/phone-steward-debug.apk \
+  --test build/outputs/apk/androidTest/debug/phone-steward-debug-androidTest.apk \
+  --device model=$MODEL,version=$VER,locale=en_GB,orientation=portrait \
+  --directories-to-pull /sdcard/Pictures/steward-screens \
+  --results-bucket "$PHONE_STEWARD_RESULTS_BUCKET" \
+  --results-dir "$RUN" --timeout 20m "$@"
+RC=$?
+echo "GCLOUD_EXIT=$RC"
+mkdir -p "/tmp/testlab/$RUN" && gcloud storage cp -r "gs://$PHONE_STEWARD_RESULTS_BUCKET/$RUN/*" "/tmp/testlab/$RUN/" >/dev/null 2>&1
+echo "LOCAL=/tmp/testlab/$RUN"; find "/tmp/testlab/$RUN" -name '*.png' | head -50
+exit $RC

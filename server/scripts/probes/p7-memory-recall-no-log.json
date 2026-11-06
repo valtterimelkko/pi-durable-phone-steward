@@ -1,0 +1,6 @@
+[
+  {
+    "old": "return [\"recall\", text(args.query, \"query\"), \"--no-log\"];",
+    "new": "return [\"recall\", text(args.query, \"query\")];"
+  }
+]

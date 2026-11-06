@@ -1,0 +1,6 @@
+[
+  {
+    "old": "found.status === \"abandoned\" && found.deliveredAtMs !== undefined && found.lateAnswered !== true",
+    "new": "false /* mutated: late answers refused */"
+  }
+]

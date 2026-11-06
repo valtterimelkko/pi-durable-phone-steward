@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\tif (knownJob.status === \"reported\") {\n\t\tif (knownJob.canonicalResult === canonical) return { accepted: true, duplicate: true };",
+    "new": "\tif (knownJob.status === \"reported\") {\n\t\tif (knownJob.canonicalResult === canonical) return { accepted: true, duplicate: true };\n\t\tif (knownJob.canonicalResult !== canonical) return { accepted: true, duplicate: false };"
+  }
+]

@@ -1,0 +1,6 @@
+[
+  {
+    "old": "const trimmed = trimDecisions(doc.entries);",
+    "new": "const trimmed = doc.entries.length > DECISIONS_KEEP ? doc.entries.slice(doc.entries.length - DECISIONS_KEEP) : doc.entries; /* mutated: oldest first */"
+  }
+]

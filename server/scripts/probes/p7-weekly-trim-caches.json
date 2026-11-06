@@ -1,0 +1,6 @@
+[
+  {
+    "old": "kind: viaShizuku ? \"trim_caches\" : \"clear_all_caches\",",
+    "new": "kind: \"clear_all_caches\","
+  }
+]

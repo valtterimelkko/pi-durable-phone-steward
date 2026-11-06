@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if ((LIVE_SCREEN_TOOLS as readonly string[]).includes(toolName)) return undefined;",
+    "new": "if ((LIVE_SCREEN_TOOLS as readonly string[]).includes(toolName) || toolName === \"phone_use_request\") return undefined;"
+  }
+]

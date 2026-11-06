@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\tif (report.severity === \"error\") return undefined;\n\treturn {\n\t\tdedupeKey: `crash:${report.appVersion}:${report.exception}`,",
+    "new": "\treturn {\n\t\tdedupeKey: `crash:${report.appVersion}:${report.exception}`,"
+  }
+]

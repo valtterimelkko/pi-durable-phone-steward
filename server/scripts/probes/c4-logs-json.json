@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\t\tif (json) {\n\t\t\t// item 4: --json wraps the journal output as {\"lines\": [...]}.",
+    "new": "\t\tif (false) {\n\t\t\t// item 4: --json wraps the journal output as {\"lines\": [...]}."
+  }
+]

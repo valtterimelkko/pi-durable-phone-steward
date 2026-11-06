@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if (isNeverTouch(packageName)) throw badRequest(neverTouchMessage(packageName, \"force_stop\"));",
+    "new": "/* MUTATED */"
+  }
+]

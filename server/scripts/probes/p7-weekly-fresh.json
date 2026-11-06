@@ -1,0 +1,6 @@
+[
+  {
+    "old": "await activeContextControl()?.freshBeforeWeeklyCheck(task.input.runId);",
+    "new": "/* mutated: no fresh start before the weekly check */"
+  }
+]

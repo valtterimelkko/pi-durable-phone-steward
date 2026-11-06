@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\t\tif (request !== undefined) {\n\t\t\tawait recordRequest(tx, {\n\t\t\t\trequestId: request.requestId,\n\t\t\t\troute: request.route,\n\t\t\t\tbody: request.body,\n\t\t\t\tresponse: JSON.parse(JSON.stringify(response)) as never,\n\t\t\t\tnowMs,\n\t\t\t});\n\t\t}\n\t\treturn { decisionId, approvedItemIds, expiresAtMs };",
+    "new": "\t\tvoid request;\n\t\treturn { decisionId, approvedItemIds, expiresAtMs };"
+  }
+]

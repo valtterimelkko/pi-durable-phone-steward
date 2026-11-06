@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if (COMMITTING.test(text)) throw new WebRefusal(",
+    "new": "if (false) throw new WebRefusal("
+  }
+]

@@ -1,0 +1,6 @@
+[
+  {
+    "old": "job.result ?? { status: \"ok\", data: null, error: null })}\\n${openList}`,",
+    "new": "job.result ?? { status: \"ok\", data: null, error: null })}`,"
+  }
+]

@@ -1,0 +1,24 @@
+# dependencies and builds
+node_modules/
+dist/
+coverage/
+.gradle/
+build/
+app/local.properties
+*.apk
+*.aab
+# secrets and runtime state (state lives outside the repo, see AGENTS.md)
+.env
+.env.*
+*.keystore
+*.jks
+*.sqlite
+*.sqlite-*
+state/
+# local evidence that may hold device data
+docs/validation/raw/
+# phone screenshots and images uploaded for validation never go into git (R1 lesson)
+docs/validation/**/*.jpg
+docs/validation/**/*.jpeg
+docs/validation/**/*.png
+docs/validation/**/*.webp

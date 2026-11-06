@@ -1,0 +1,6 @@
+[
+  {
+    "old": "...(restored === undefined ? [] : [restored]),",
+    "new": "...(true ? [] : [restored]),"
+  }
+]

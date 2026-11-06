@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\t\"clear_app_cache\",\n\t\"clear_all_caches\",\n\t\"advice\",\n",
+    "new": "\t\"clear_app_cache\",\n\t\"advice\",\n"
+  }
+]

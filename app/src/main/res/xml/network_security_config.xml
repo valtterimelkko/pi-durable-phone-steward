@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Release (and default) network policy: HTTPS only, no cleartext anywhere.
+  Debug builds override this file (app/src/debug) to allow cleartext to the
+  loopback hosts used by disposable validation servers only.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+</network-security-config>

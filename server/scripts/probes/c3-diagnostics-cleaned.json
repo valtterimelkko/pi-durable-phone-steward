@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\treturn JSON.parse(JSON.stringify(cleaned)) as JsonValue;\n}",
+    "new": "\treturn JSON.parse(JSON.stringify(data)) as JsonValue;\n}"
+  }
+]

@@ -1,0 +1,6 @@
+[
+  {
+    "old": "items: JSON.parse(JSON.stringify(batch)) as MediaRef[],",
+    "new": "items: batch.map((ref) => ({ mediaId: ref.mediaId })),"
+  }
+]

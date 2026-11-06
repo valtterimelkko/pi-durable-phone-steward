@@ -1,0 +1,11 @@
+# Runs the nightly backup (S3). Persistent: a run missed while the host was off happens at boot.
+[Unit]
+Description=Phone Steward nightly state backup
+
+[Timer]
+OnCalendar=*-*-* 03:30:00
+Persistent=true
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,6 @@
+[
+  {
+    "old": "const trimmed = redactCodes(value.replace(/\\s+/g, \" \").trim());",
+    "new": "const trimmed = value.replace(/\\s+/g, \" \").trim(); /* mutated: no redaction */"
+  }
+]

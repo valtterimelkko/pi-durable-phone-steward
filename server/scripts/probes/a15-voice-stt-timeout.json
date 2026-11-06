@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\t\t\tprovider: { order: [\"DeepInfra\"], allow_fallbacks: false },\n\t\t}),\n\t\tsignal: AbortSignal.timeout(timeoutsFor(deps).sttMs),",
+    "new": "\t\t\tprovider: { order: [\"DeepInfra\"], allow_fallbacks: false },\n\t\t}),"
+  }
+]

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_service_description">Lets Phone Steward read the screen and tap for you, but only in a session you start yourself, only in apps you allow, and it asks before anything that deletes, pays or sends. You can stop it at any time.</string>
+    <string name="screen_notification_channel">Phone use session</string>
+    <string name="screen_confirm_channel">Phone use questions</string>
+</resources>

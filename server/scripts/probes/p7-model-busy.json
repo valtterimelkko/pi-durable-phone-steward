@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if (await deps.context.isBusy()) throw conflict(\"AGENT_BUSY\"",
+    "new": "if (false) throw conflict(\"AGENT_BUSY\""
+  }
+]

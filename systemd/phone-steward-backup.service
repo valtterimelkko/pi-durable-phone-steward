@@ -1,0 +1,21 @@
+# Nightly SQLite backup of the steward's state (protocol §10). Copy both files to
+# /etc/systemd/system/, replace /opt/phone-steward with your checkout path, then:
+#   systemctl daemon-reload && systemctl enable --now phone-steward-backup.timer
+[Unit]
+Description=Phone Steward nightly state backup (SQLite online backup)
+
+[Service]
+Type=oneshot
+# The online backup reads the live database read-only and writes only under
+# /var/lib/phone-steward/backups/, keeping the newest seven. It needs no running server
+# and does not stop or touch it.
+WorkingDirectory=/opt/phone-steward/server
+Environment=PHONE_STEWARD_STATE_DIR=/var/lib/phone-steward
+ExecStart=/opt/phone-steward/bin/steward backup
+Nice=10
+IOSchedulingClass=idle
+TimeoutStartSec=300
+MemoryMax=512M
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full

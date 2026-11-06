@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if (canonicalJson(current).length > PHONE_SUMMARY_MAX_CHARS) current = minimalShape(current);",
+    "new": "if (canonicalJson(current).length > PHONE_SUMMARY_MAX_CHARS) current = current;"
+  }
+]

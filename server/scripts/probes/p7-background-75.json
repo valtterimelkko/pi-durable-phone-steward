@@ -1,0 +1,6 @@
+[
+  {
+    "old": "const background = block - Math.round(fraction * window);",
+    "new": "const background = block - Math.round(0.5 * window);"
+  }
+]

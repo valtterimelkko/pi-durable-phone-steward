@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# The steward service's ExecStart. Reads the model provider key from, in order:
+#   1. PHONE_STEWARD_MODEL_KEY (provider-agnostic),
+#   2. <PROVIDER>_API_KEY (for example ZAI_API_KEY),
+#   3. the file named by PHONE_STEWARD_KEY_FILE (one line, trimmed).
+# The value lives in this process's environment only: never written to a file, a log or
+# the unit. Then the script execs the server, so systemd supervises the Node process
+# directly. The key is exported as <PROVIDER>_API_KEY because that is the variable the
+# provider clients read.
+set -euo pipefail
+
+provider="${PHONE_STEWARD_MODEL_PROVIDER:-zai}"
+key_var="$(printf '%s_API_KEY' "$(printf '%s' "$provider" | tr '[:lower:]-' '[:upper:]_')")"
+
+key="${PHONE_STEWARD_MODEL_KEY:-}"
+if [ -z "$key" ]; then
+	key="${!key_var:-}"
+fi
+if [ -z "$key" ] && [ -n "${PHONE_STEWARD_KEY_FILE:-}" ]; then
+	key="$(tr -d '[:space:]' < "$PHONE_STEWARD_KEY_FILE" 2>/dev/null || true)"
+fi
+if [ -z "$key" ]; then
+	echo "steward-serve: no key for provider '$provider' (set $key_var or PHONE_STEWARD_KEY_FILE); refusing to start" >&2
+	exit 1
+fi
+export "$key_var=$key"
+unset key
+
+if [ "${PHONE_STEWARD_SERVE_DRY_RUN:-}" = "1" ]; then
+	echo "$key_var=set"
+	exit 0
+fi
+cd "$(dirname "$(readlink -f "$0")")/../server"
+exec node --experimental-strip-types src/main.ts

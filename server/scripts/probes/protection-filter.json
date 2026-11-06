@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\tif (ref.inKeep === true || ref.isFavourite === true) return true;",
+    "new": "\tif (false) return true;"
+  }
+]

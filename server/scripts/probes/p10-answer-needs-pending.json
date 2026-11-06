@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if (status !== \"pending\") return { kind: \"not_pending\", status };",
+    "new": "if (false) return { kind: \"not_pending\", status };"
+  }
+]

@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if (!approvedIds.has(item.itemId)) continue;",
+    "new": "/* MUTATED */"
+  }
+]

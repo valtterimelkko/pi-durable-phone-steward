@@ -1,0 +1,6 @@
+[
+  {
+    "old": "...(declined === undefined ? [] : [declined]),",
+    "new": "...(declined === undefined ? [] : []),"
+  }
+]

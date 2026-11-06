@@ -1,0 +1,6 @@
+[
+  {
+    "old": "return registry.snapshot().installed().filter((extension) => extension.name !== LIVE_EXTENSION_NAME);",
+    "new": "return registry.snapshot().installed().filter((extension) => extension.name !== \"\");"
+  }
+]

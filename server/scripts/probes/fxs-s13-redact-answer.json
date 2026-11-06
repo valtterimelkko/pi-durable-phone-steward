@@ -1,0 +1,10 @@
+[
+  {
+    "old": "redactCodes(answer.detail).slice(0, MAX_DETAIL)",
+    "new": "answer.detail.slice(0, MAX_DETAIL) /* mutated: no redaction */"
+  },
+  {
+    "old": "redactCodes(answer.nodeText.replace(/\\s+/g, \" \").trim()).slice(0, 200)",
+    "new": "answer.nodeText.replace(/\\s+/g, \" \").trim().slice(0, 200) /* mutated: no redaction */"
+  }
+]

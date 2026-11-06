@@ -1,0 +1,6 @@
+[
+  {
+    "old": "const keep = Math.max(1, options.keep ?? BACKUP_KEEP);",
+    "new": "const keep = Math.max(1, options.keep ?? 1000);"
+  }
+]

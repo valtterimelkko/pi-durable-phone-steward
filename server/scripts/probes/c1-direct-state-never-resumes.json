@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\tif (options.resume !== false) harness.resume();",
+    "new": "\tharness.resume();"
+  }
+]

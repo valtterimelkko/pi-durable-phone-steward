@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\t\t\tconst seen = await runtime.snapshot(Notifications, context);\n\t\t\tif (seen?.sent[dedupeKey] !== undefined) {",
+    "new": "\t\t\tconst seen = await runtime.snapshot(Notifications, context);\n\t\t\tif (false && seen?.sent[dedupeKey] !== undefined) {"
+  }
+]

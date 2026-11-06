@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\t\tsendJson(res, 200, { text });",
+    "new": "\t\tsendJson(res, 200, { text, key: deps.openrouterApiKey });"
+  }
+]

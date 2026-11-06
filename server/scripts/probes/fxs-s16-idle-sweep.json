@@ -1,0 +1,6 @@
+[
+  {
+    "old": "else if (nowMs - (session.lastPollAtMs ?? session.startedAtMs) > liveConfig.maxIdleMs) reason = \"app_lost\";",
+    "new": "/* mutated: no idle rule */"
+  }
+]

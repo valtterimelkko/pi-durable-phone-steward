@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if (doc.used[kind] >= WEB_BUDGETS[kind]) return false;",
+    "new": "if (false) return false;"
+  }
+]

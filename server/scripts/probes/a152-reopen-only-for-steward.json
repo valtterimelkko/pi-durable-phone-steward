@@ -1,0 +1,6 @@
+[
+  {
+    "old": "/** A15.2: the reopen line when this step found Phone Steward in front (or was refused for it). */\nfunction reopenSuffix(step: LiveStep, lastOtherPackage: string | undefined): string | undefined {\n\tif (step.frontPackage === STEWARD_PACKAGE || isStewardRefusal(step.detail)) {\n\t\treturn reopenLine({ lastOtherPackage });\n\t}\n\treturn undefined;\n}",
+    "new": "/** A15.2: the reopen line when this step found Phone Steward in front (or was refused for it). */\nfunction reopenSuffix(step: LiveStep, lastOtherPackage: string | undefined): string | undefined {\n\tif (true || step.frontPackage === STEWARD_PACKAGE || isStewardRefusal(step.detail)) {\n\t\treturn reopenLine({ lastOtherPackage });\n\t}\n\treturn undefined;\n}"
+  }
+]

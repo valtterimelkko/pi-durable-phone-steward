@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\tconst existing = doc.jobs[jobId];\n\tif (existing !== undefined) return { jobId, created: false };",
+    "new": "\tif (false) return { jobId, created: false };"
+  }
+]

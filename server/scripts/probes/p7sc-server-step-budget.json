@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if (session.stepCount >= liveConfig.maxSteps || nowMs - session.startedAtMs > liveConfig.maxDurationMs) {",
+    "new": "if (false) {"
+  }
+]

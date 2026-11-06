@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\treturn scopes.some((scope) => item.startsWith(normaliseFolderScope(scope)));",
+    "new": "\treturn scopes.some((scope) => item === normaliseFolderScope(scope));"
+  }
+]

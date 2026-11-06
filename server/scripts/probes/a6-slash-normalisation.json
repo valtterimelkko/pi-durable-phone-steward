@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\tconst withoutLeading = folder.replace(/^\\/+/, \"\");\n\treturn withoutLeading.endsWith(\"/\") ? withoutLeading : `${withoutLeading}/`;",
+    "new": "\tconst withoutLeading = folder.replace(/^\\/+/, \"\");\n\treturn withoutLeading;"
+  }
+]

@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if (live !== undefined) {",
+    "new": "if (false) {"
+  }
+]

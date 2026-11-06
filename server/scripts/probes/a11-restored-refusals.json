@@ -1,0 +1,6 @@
+[
+  {
+    "old": "const refusal = refusedDeleteReason(path);",
+    "new": "const refusal = undefined;"
+  }
+]

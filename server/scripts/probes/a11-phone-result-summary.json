@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if (full.length <= PHONE_SUMMARY_MAX_CHARS) {",
+    "new": "if (true) {"
+  }
+]

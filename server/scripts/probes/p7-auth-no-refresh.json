@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if (current?.type === \"oauth\" && Date.now() + OAUTH_MIN_VALIDITY_MS >= current.expires) {",
+    "new": "if (false) {"
+  }
+]

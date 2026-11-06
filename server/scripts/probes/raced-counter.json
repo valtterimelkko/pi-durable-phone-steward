@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\t\tif (job.status === \"reported\") {\n\t\t\t// Raced with the winning report: return the marker and let the caller persist\n\t\t\t// the counter \u2014 a throw inside the commit would roll it back (04.9).\n\t\t\tif (job.canonicalResult !== canonical) return { conflict: true };\n\t\t\treturn { conflict: false, duplicate: true };\n\t\t}",
+    "new": "\t\tif (job.status === \"reported\") {\n\t\t\tif (job.canonicalResult !== canonical) throw conflict(\"RESULT_CONFLICT\", \"raced\");\n\t\t\treturn { conflict: false, duplicate: true };\n\t\t}"
+  }
+]

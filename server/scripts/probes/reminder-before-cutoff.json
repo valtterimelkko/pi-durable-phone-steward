@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\t\tconst reminder = ledger.reminded[ref.mediaId];\n\t\tif (reminder === undefined || reminder.runId === currentRunId) return false;",
+    "new": "\t\tif (false) return false;"
+  }
+]

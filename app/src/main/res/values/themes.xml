@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The Compose theme (ui/theme) draws everything; this only sets the window behind it. -->
+    <style name="Theme.PhoneSteward" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/steward_canvas</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+</resources>

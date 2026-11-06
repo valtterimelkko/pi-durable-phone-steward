@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if (proposal.status !== \"open\") continue;",
+    "new": "/* MUTATED */"
+  }
+]

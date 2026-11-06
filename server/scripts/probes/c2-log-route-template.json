@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\t\t\troute: routeTemplate,",
+    "new": "\t\t\troute: path,"
+  }
+]

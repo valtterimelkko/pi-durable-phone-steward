@@ -1,0 +1,6 @@
+[
+  {
+    "old": "return [stewardSections(), phoneToolsExtension, filesShizukuExtension, serverToolsExtension, webToolsExtension, orchestrationToolsExtension, guardExtension];",
+    "new": "return [stewardSections(), phoneToolsExtension, filesShizukuExtension, serverToolsExtension, orchestrationToolsExtension, guardExtension];"
+  }
+]

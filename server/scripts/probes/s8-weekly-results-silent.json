@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\treturn job.waiter?.run === \"weekly-check\";",
+    "new": "\treturn false && job.waiter?.run === \"weekly-check\";"
+  }
+]

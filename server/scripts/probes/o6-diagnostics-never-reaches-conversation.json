@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\t\t\tif (job.kind === \"phone_diagnostics\") {",
+    "new": "\t\t\tif (false) {"
+  }
+]

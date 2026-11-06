@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\tif (!running && explicitStateDir === undefined) {",
+    "new": "\tif (false && !running && explicitStateDir === undefined) {"
+  }
+]

@@ -1,0 +1,6 @@
+[
+  {
+    "old": "text: redactCodes(text).slice(0, MAX_SAY_TEXT)",
+    "new": "text: text.slice(0, MAX_SAY_TEXT)"
+  }
+]

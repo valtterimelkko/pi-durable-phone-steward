@@ -1,0 +1,10 @@
+[
+  {
+    "old": "\t\t\tif (stampedVersion !== undefined && rulesNow !== undefined && rulesNow.ruleVersion !== stampedVersion) {",
+    "new": "\t\t\tif (false && stampedVersion !== undefined && rulesNow !== undefined && rulesNow.ruleVersion !== stampedVersion) {"
+  },
+  {
+    "old": "\t\t\tif (stampedVersion !== undefined && rules.ruleVersion !== stampedVersion) {",
+    "new": "\t\t\tif (false && stampedVersion !== undefined && rules.ruleVersion !== stampedVersion) {"
+  }
+]

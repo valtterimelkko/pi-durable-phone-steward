@@ -1,0 +1,6 @@
+[
+  {
+    "old": "if (item.kind === \"disable_app\" && isNeverTouch(target.packageName)) {",
+    "new": "if (false && item.kind === \"disable_app\" && isNeverTouch(target.packageName)) {"
+  }
+]

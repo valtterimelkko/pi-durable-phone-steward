@@ -1,0 +1,6 @@
+[
+  {
+    "old": "\t\t\tawait crashPoint(\"reporter:before-submit\");\n\t\t\tconst submission = await conversation.submit(\n\t\t\t\t{\n\t\t\t\t\ttype: \"input\",\n\t\t\t\t\tcontent: `${phoneResultText(jobId, job.kind, job.result ?? { status: \"ok\", data: null, error: null })}\\n${openList}`,\n\t\t\t\t\twhenBusy: \"followUp\",\n\t\t\t\t\trequestId: `phonejob:${jobId}`,\n\t\t\t\t},\n\t\t\t\tcontext,\n\t\t\t);",
+    "new": "\t\t\tawait runtime.commit(\n\t\t\t\tasync (tx) => {\n\t\t\t\t\tawait openRun(tx, runtime.conversationId, `phonejob:${jobId}`, \"phone_result\", Date.now());\n\t\t\t\t\treturn { status: \"running\", checkpoint: { phase: \"mark\", jobId } };\n\t\t\t\t},\n\t\t\t\tcontext,\n\t\t\t);\n\t\t\tconst submission = await conversation.submit(\n\t\t\t\t{\n\t\t\t\t\ttype: \"input\",\n\t\t\t\t\tcontent: `${phoneResultText(jobId, job.kind, job.result ?? { status: \"ok\", data: null, error: null })}\\n${openList}`,\n\t\t\t\t\twhenBusy: \"followUp\",\n\t\t\t\t\trequestId: `phonejob:${jobId}`,\n\t\t\t\t},\n\t\t\t\tcontext,\n\t\t\t);"
+  }
+]

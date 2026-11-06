@@ -1,0 +1,50 @@
+# phone-steward server unit template. Copy to /etc/systemd/system/, replace every
+# /opt/phone-steward with your checkout path and review the Environment lines, then:
+#   systemctl daemon-reload && systemctl enable --now phone-steward
+# The API binds 127.0.0.1 by default; to expose it behind a reverse proxy see
+# docs/ADOPTING.md ("Putting the server behind HTTPS").
+[Unit]
+Description=Phone Steward durable agent (server half)
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+# One process owns the SQLite storage; the CLI reaches a running instance only through
+# the admin socket, never the file. bin/steward-serve reads the provider key from
+# PHONE_STEWARD_MODEL_KEY (or PHONE_STEWARD_KEY_FILE) at start.
+# Replace the paths below with your own checkout and user.
+WorkingDirectory=/opt/phone-steward/server
+ExecStart=/opt/phone-steward/bin/steward-serve
+Environment=NODE_ENV=production
+Environment=PHONE_STEWARD_STATE_DIR=/var/lib/phone-steward
+Environment=PHONE_STEWARD_HOST=127.0.0.1
+Environment=PHONE_STEWARD_PORT=7461
+# The reverse proxy's addresses the pairing rate limit trusts its X-Forwarded-For from
+# (loopback is always trusted). Example for a proxy on the documentation range:
+# Environment=PHONE_STEWARD_TRUSTED_PROXIES=198.51.100.0/24
+# External integrations, all off by default: schedules, orchestration, notifications.
+Environment=PHONE_STEWARD_SCHEDULES=off
+# Environment=PHONE_STEWARD_ORCHESTRATION=on
+# Environment=PHONE_STEWARD_ORCHESTRATION_CMD=/usr/local/bin/my-orchestrator
+# Environment=PHONE_STEWARD_NOTIFY_CMD=/usr/local/bin/my-notify
+# The voice provider keys (OPENROUTER_API_KEY, OPENAI_API_KEY, LOCAL_ASR_URL).
+# Optional: absent on a host with no voice keys, and the routes then answer 503.
+EnvironmentFile=-/etc/phone-steward/voice.env
+# Model provider key: keep it out of this file. Either list it in an EnvironmentFile
+# root-readable only, or write it to a file and set PHONE_STEWARD_KEY_FILE here.
+# Environment=PHONE_STEWARD_KEY_FILE=/etc/phone-steward/model.key
+Restart=always
+RestartSec=5
+# The steward is idle almost all the time; a small, capped footprint. Raise MemoryMax if
+# you keep web_browse (it runs a headless Chromium, about 300-500 MB) alongside the server.
+MemoryMax=2G
+CPUQuota=100%
+Nice=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+
+[Install]
+WantedBy=multi-user.target

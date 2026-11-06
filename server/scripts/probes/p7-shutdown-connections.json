@@ -1,0 +1,10 @@
+[
+  {
+    "old": "for (const response of route.streams) response.end();",
+    "new": "/* mutated: open streams are not ended */"
+  },
+  {
+    "old": "for (const server of listeners) server.closeAllConnections();",
+    "new": "for (const server of listeners) server.closeIdleConnections();"
+  }
+]

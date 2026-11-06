@@ -1,0 +1,10 @@
+[
+  {
+    "old": "\tinitial: (input) =>\n\t\tinput.start === \"remind\"\n\t\t\t? {\n\t\t\t\t\tphase: \"remind\",\n\t\t\t\t\t// 05.2: carry the request-time stamp into the checkpoint (dropping it made\n\t\t\t\t\t// the guards below fall back to nothing and remind out-of-scope items).\n\t\t\t\t\t...(input.ruleVersion === undefined ? {} : { ruleVersion: input.ruleVersion }),\n\t\t\t\t\t...(input.folders === undefined ? {} : { folders: input.folders }),\n\t\t\t\t}\n\t\t\t: { phase: \"open\" },",
+    "new": "\tinitial: (input) => (input.start === \"remind\" ? { phase: \"remind\" } : { phase: \"open\" }),"
+  },
+  {
+    "old": "\t\t\tconst stampedVersion = checkpoint.phase === \"remind\" ? (checkpoint.ruleVersion ?? task.input.ruleVersion) : task.input.ruleVersion;\n\t\t\tconst stampedFolders = checkpoint.phase === \"remind\"\n\t\t\t\t? (checkpoint.folders ?? task.input.folders)\n\t\t\t\t: task.input.folders;",
+    "new": "\t\t\tconst stampedVersion = checkpoint.phase === \"remind\" ? checkpoint.ruleVersion : undefined;\n\t\t\tconst stampedFolders = checkpoint.phase === \"remind\" ? checkpoint.folders : undefined;"
+  }
+]

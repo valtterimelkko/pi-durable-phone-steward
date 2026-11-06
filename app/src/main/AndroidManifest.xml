@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- the phone talks to the steward server over HTTPS (protocol §1). -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Usage access (app sizes via StorageStatsManager): granted through Settings. -->
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <!-- All-files access: granted through Settings. -->
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ProtectedPermissions" />
+    <!-- Media read for the MediaStore queries (Android 13 runtime permissions). -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <!-- Auto mode: trash media without a dialog (only requested when auto mode is on). -->
+    <uses-permission android:name="android.permission.MANAGE_MEDIA" />
+    <!-- Enumerating installed packages on API 30+. -->
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <!-- N1: the direct battery-optimisation request needs this to show its dialog. -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <!-- Uninstall proposals go through Android's own confirmation. -->
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <!-- F1 (A7): the one-tap self-update installs the downloaded APK over this app. -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <!-- (A10.3): phone use. A foreground service keeps an owner-started session alive with a visible
+         Stop button; the notification permission lets the confirm gate and Stop reach the owner. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- A15.5: dictation records the owner's voice, only while they hold the microphone button. -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- A5: the Application class installs crash self-reporting before anything else runs. -->
+    <application
+        android:name=".PhoneStewardApplication"
+        android:label="Phone Steward"
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:theme="@style/Theme.PhoneSteward">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- F1 (A7): Android's answer to the self-update install session. -->
+        <receiver
+            android:name=".update.InstallResultReceiver"
+            android:exported="false" />
+
+        <!-- (A10.3): the screen service. Sideloaded apps need "Allow restricted settings" first
+             (App info, three-dot menu); the Status card says so. -->
+        <service
+            android:name=".screen.StewardAccessibilityService"
+            android:exported="true"
+            android:label="Phone Steward"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+        <service
+            android:name=".screen.LiveSessionService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Owner-started phone-use session: the steward operates the screen with a visible Stop button" />
+        </service>
+        <receiver
+            android:name=".screen.ConfirmReceiver"
+            android:exported="false" />
+
+        <!-- A10.2: Shizuku hands its service binder to the app through this provider. -->
+        <provider
+            android:name="rikka.shizuku.ShizukuProvider"
+            android:authorities="${applicationId}.shizuku"
+            android:enabled="true"
+            android:exported="true"
+            android:multiprocess="false"
+            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
+
+        <!-- WorkManager: the periodic sync worker (about every 4 hours, online). -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup" />
+        </provider>
+    </application>
+
+</manifest>

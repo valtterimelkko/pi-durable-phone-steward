@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+/* The steward CLI wrapper: runs server/src/cli.ts from this checkout . */
+import { fileURLToPath } from "node:url";
+import { join } from "node:path";
+
+const here = join(fileURLToPath(new URL(".", import.meta.url)), "..");
+await import(join(here, "server", "src", "cli.ts"));
